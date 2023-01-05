@@ -20,7 +20,7 @@ namespace FirstBankOfSuncoast
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to C#");
+            DisplayGreeting();
         }
 
         static void DisplayGreeting()
