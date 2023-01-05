@@ -22,5 +22,15 @@ namespace FirstBankOfSuncoast
         {
             Console.WriteLine("Welcome to C#");
         }
+
+        static void DisplayGreeting()
+        {
+            Console.WriteLine("-----------------------------------------");
+            Console.WriteLine("    Welcome to First Bank of Suncoast    ");
+            Console.WriteLine("-----------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine();
+        }
+
     }
 }
