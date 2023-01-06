@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FirstBankOfSuncoast
 {
@@ -52,10 +54,35 @@ namespace FirstBankOfSuncoast
             Console.WriteLine();
         }
 
+        //create method to compute the bank balance
+
+        static public int ComputeBalance(List<Transaction> transactionsForBalancing, string accountTypeToBalance)
+        {
+            var balanceFilteredTransactions = transactionsForBalancing.Where(transaction => transaction.Account == accountTypeToBalance);
+
+            var balance = balanceFilteredTransactions.Where(transaction => transaction.Type == "Deposit").Sum(transaction => transaction.Amount) -
+                          balanceFilteredTransactions.Where(transaction => transaction.Type == "Withdraw").Sum(transaction => transaction.Amount);
+
+            return balance;
+        }
+
 
         static void Main(string[] args)
         {
             DisplayGreeting();
+
+            //create some dummy transactions
+
+            var transactions = new List<Transaction>()
+            {
+                new Transaction { Type = "Deposit", Amount = 5000, Account = "Savings", TimeStamp = DateTime.Now },
+
+                new Transaction { Type = "Deposit", Amount = 20000, Account = "Savings", TimeStamp = DateTime.Now},
+
+                new Transaction { Type = "Deposit", Amount = 10000, Account = "Checking", TimeStamp = DateTime.Now },
+
+                new Transaction { Type = "Withdraw", Amount = 250, Account = "Checking", TimeStamp = DateTime.Now },
+            };
         }
     }
 }
