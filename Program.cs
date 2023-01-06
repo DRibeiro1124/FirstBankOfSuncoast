@@ -83,8 +83,80 @@ namespace FirstBankOfSuncoast
 
                 new Transaction { Type = "Withdraw", Amount = 250, Account = "Checking", TimeStamp = DateTime.Now },
             };
+
+            var userHasChosenToQuit = false;
+            while (userHasChosenToQuit == false)
+            {
+                Console.WriteLine("Your Banking Menu Options:");
+                Console.WriteLine();
+                Console.WriteLine("(D)eposit");
+                Console.WriteLine("(W)ithdraw");
+                Console.WriteLine("(T)ransfer");
+                Console.WriteLine("(B)alance");
+                Console.WriteLine("(H)istory");
+                Console.WriteLine("(Q)uit");
+
+                var choice = PromptForString("Choice: ").ToUpper().Trim();
+                switch (choice)
+                {
+                    case "D":
+                        var depositChoice = PromptForString("Sorry, unable to deposit cash at this moment. Please make another selection");
+                        break;
+
+                    case "W":
+                        var withdrawChoice = PromptForString("Do you want withdraw from Savings or Checking? ");
+
+                        var withdrawMaximum = ComputeBalance(transactions, withdrawChoice);
+
+                        var withdrawAmount = PromptForInteger($"How much do you want to withdraw from {withdrawChoice} -- up to {withdrawMaximum}? ");
+
+                        if (withdrawAmount > withdrawMaximum)
+                        {
+                            Console.WriteLine("No funds!");
+                        }
+                        else
+                        {
+                            var transaction = new Transaction()
+                            {
+                                Account = withdrawChoice,
+                                Amount = withdrawAmount,
+                                Type = "W",
+                                TimeStamp = DateTime.Now,
+                            };
+
+                            transactions.Add(transaction);
+                        }
+                        break;
+
+                    case "T":
+                        break;
+
+                    case "B":
+                        var balanceChoice = PromptForString("Do you want balance for Savings or Checking? ");
+
+                        var balance = ComputeBalance(transactions, balanceChoice);
+
+                        Console.WriteLine($"Your {balanceChoice} balance is {balance}");
+                        break;
+
+                    case "H":
+                        var historyChoice = PromptForString("Do you want history for Savings or Checking? ");
+
+                        var filteredTransactions = transactions.Where(transaction => transaction.Account == historyChoice);
+
+                        foreach (var transaction in filteredTransactions)
+                        {
+                            Console.WriteLine($"{transaction.Amount} - {transaction.Type}");
+                        }
+
+                        break;
+
+                    case "Q":
+                        userHasChosenToQuit = true;
+                        break;
+                }
+            }
         }
     }
 }
-
 
